@@ -3,10 +3,12 @@ from telegram.ext.dispatcher import run_async
 from telegram.ext.messagehandler import MessageHandler
 from telegram.ext.filters import Filters
 from bot.CEnvironment import CEnvironment
+from bot.CTextQuality import CTextQuality
 
 class CTelegramBot:
   def __init__(self, configs):
     self.configs = configs
+    self.textQuality = CTextQuality(configs=configs)
   
   def bind(self, dp):
     dp.add_handler(MessageHandler(Filters.update.edited_message, self.ignoreEdit))
@@ -28,7 +30,8 @@ class CTelegramBot:
     )
 
     try:
-      # todo: Реализовать получение ссылки на документ и отправки сводки по тексту
+      if env.google_docs.validLink(env.message):
+        return self.checkDocument(env, env.google_docs.document(env.message))
       env.send('Unknown command. See /help')
     except Exception as e:
       env.send('Error: %s' % e)
@@ -36,3 +39,8 @@ class CTelegramBot:
   
   def help(self, update, context):
     update.message.reply_text('')
+
+  def checkDocument(self, env, doc):
+    summary = self.textQuality.evaluate(doc.plainText())
+    env.send(summary.asText())
+    return
