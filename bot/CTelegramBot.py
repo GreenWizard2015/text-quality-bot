@@ -6,9 +6,10 @@ from bot.CEnvironment import CEnvironment
 from bot.CTextQuality import CTextQuality
 
 class CTelegramBot:
-  def __init__(self, configs):
+  def __init__(self, configs, googleApi):
     self.configs = configs
     self.textQuality = CTextQuality(configs=configs)
+    self.googleApi = googleApi
   
   def bind(self, dp):
     dp.add_handler(MessageHandler(Filters.update.edited_message, self.ignoreEdit))
@@ -26,7 +27,8 @@ class CTelegramBot:
     env = CEnvironment(
       configs=self.configs,
       update=update,
-      context=context
+      context=context,
+      googleApi=self.googleApi
     )
 
     try:

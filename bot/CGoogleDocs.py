@@ -2,9 +2,9 @@ from bot.CGoogleDocument import CGoogleDocument
 import re
 
 class CGoogleDocs:
-  def __init__(self, configs):
-    self._configs = configs
-    self._docLinkRE = re.compile(r'^https?:\/\/docs\.google\.com\/document\/d\/([\da-f_\-]{44})', re.IGNORECASE)
+  def __init__(self, googleApi=None):
+    self._docLinkRE = re.compile(r'^https?:\/\/docs\.google\.com\/document\/d\/([^\s\/]+)', re.IGNORECASE)
+    self._api = googleApi
   
   def link2id(self, link):
     m = self._docLinkRE.match(link)
@@ -16,5 +16,5 @@ class CGoogleDocs:
     return not (self.link2id(link) is None)
 
   def document(self, link):
-    return CGoogleDocument(docId=self.link2id(link))
+    return CGoogleDocument(docId=self.link2id(link), api=self._api)
   

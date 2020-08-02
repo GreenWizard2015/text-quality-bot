@@ -4,6 +4,8 @@ import logging
 from telegram.ext import Updater
 from python_json_config import ConfigBuilder
 from bot.CTelegramBot import CTelegramBot
+from bot.CGoogleAPI import CGoogleAPI
+import os
 
 logging.basicConfig(
   format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -20,7 +22,8 @@ def main():
 
   updater = Updater(configs.TelegramToken, use_context=True)
   bot = CTelegramBot(
-    configs=configs
+    configs=configs,
+    googleApi=CGoogleAPI(os.path.join(os.path.dirname(__file__), 'google-token.json'))
   )
   bot.bind(updater.dispatcher)
   updater.dispatcher.add_error_handler(error)

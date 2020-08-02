@@ -1,13 +1,13 @@
 import re
 from cached_property import cached_property
-from bot import CGoogleDocs
+from bot.CGoogleDocs import CGoogleDocs
 
 class CEnvironment:
-  def __init__(self, configs, update, context):
+  def __init__(self, configs, update, context, googleApi):
     self.configs = configs
     self._update = update
     self._context = context
-    self.google_docs = CGoogleDocs(configs)
+    self.google_docs = CGoogleDocs(googleApi)
     
   def send(self, message):
     return self._update.message.reply_text(message)
