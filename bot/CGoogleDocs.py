@@ -6,11 +6,15 @@ class CGoogleDocs:
     self._configs = configs
     self._docLinkRE = re.compile(r'^https?:\/\/docs\.google\.com\/document\/d\/([\da-f_\-]{44})', re.IGNORECASE)
   
+  def link2id(self, link):
+    m = self._docLinkRE.match(link)
+    if m:
+      return m.group(1)
+    return None
+
   def validLink(self, link):
-    return not (self._docLinkRE.match(link) is None)
+    return not (self.link2id(link) is None)
 
   def document(self, link):
-    # todo: Реализовать получение ID документа
-    docId = None
-    return CGoogleDocument(docId=docId)
+    return CGoogleDocument(docId=self.link2id(link))
   

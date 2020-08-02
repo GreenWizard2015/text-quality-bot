@@ -12,3 +12,9 @@ class Test_CGoogleDocs:
     expect(docs.validLink('https://docs.google.com/document/d/1111111111111111111_111111111111111111111111/edit')).to_be(True)
     expect(docs.validLink('https://docs.google.com/document/d/1111111111111111111_111111111111111111111111/')).to_be(True)
     expect(docs.validLink('https://docs.google.com/document/d/1111111111111111111_111111111111111111111111')).to_be(True)
+    
+  def test_link2id(self):
+    docs = CGoogleDocs(configs=None)
+    expect(docs.link2id('https://docs.google.com/document/d/1111111111111111111_111111111111111111111111')).is_equal(
+      '1111111111111111111_111111111111111111111111'
+    )
