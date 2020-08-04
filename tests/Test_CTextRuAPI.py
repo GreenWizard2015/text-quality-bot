@@ -7,7 +7,6 @@ class Test_CTextRuAPI:
       expect(url).is_equal('http://api.text.ru/post')
       expect(params['userkey']).is_equal('user key')
       expect(params['text']).is_equal('text 123')
-      expect(params['copying']).is_equal('noadd')
       return {
         'text_uid': 'text id'
       }
@@ -36,7 +35,6 @@ class Test_CTextRuAPI:
       expect(url).is_equal('http://api.text.ru/post')
       expect(params['userkey']).is_equal('user key')
       expect(params['uid']).is_equal('uid')
-      expect(params['jsonvisible']).is_equal('details')
       return response
     
     api = CTextRuAPI(key='user key', request=fakeRequest)
@@ -44,14 +42,14 @@ class Test_CTextRuAPI:
 
   def test_getTask_NoneIfNotReady(self):
     def fakeRequest(url, params):
-      return { 'error_code': 81 }
+      return { 'error_code': 181 }
     
     api = CTextRuAPI(key='user key', request=fakeRequest)
     expect(api.getTask('uid')).is_equal(None)
 
   def test_getTask_NoneIfBusy(self):
     def fakeRequest(url, params):
-      return { 'error_code': 44 }
+      return { 'error_code': 144 }
     
     api = CTextRuAPI(key='user key', request=fakeRequest)
     expect(api.getTask('uid')).is_equal(None)

@@ -2,7 +2,9 @@ from bot.CTextRuPendingRequest import CTextRuPendingRequest
 import requests
 
 def defaultHttp(url, params):
-  return requests.post(url, data=params).json()
+  req = requests.post(url, data=params)
+  print(req.text) # debug
+  return req.json()
 
 class CTextRuAPI(object):
   def __init__(self, key, request=None):
@@ -18,8 +20,7 @@ class CTextRuAPI(object):
       'http://api.text.ru/post',
       {
         'userkey': self._key,
-        'text': text,
-        'copying': 'noadd'
+        'text': text
       }
     )
     
@@ -33,14 +34,13 @@ class CTextRuAPI(object):
       'http://api.text.ru/post',
       {
         'userkey': self._key,
-        'uid': uid,
-        'jsonvisible': 'details'
+        'uid': uid
       }
     )
     
     if 'error_code' in resp:
-      if 81 == resp['error_code']: return None
-      if 44 == resp['error_code']: return None
+      if 181 == resp['error_code']: return None
+      if 144 == resp['error_code']: return None
       raise Exception('(Text.Ru) Error #%d: %s' % (resp['error_code'], resp['error_desc']))
 
     return resp
