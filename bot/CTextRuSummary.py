@@ -1,10 +1,10 @@
 class CTextRuSummary(object):
-  def __init__(self):
+  def __init__(self, data):
     return
   
   def isReady(self):
     return True
   
   def asText(self):
-    # todo: Реализовать построение отчёта в виде обычного текста (CTextRuSummary)
+    # todo: Р РµР°Р»РёР·РѕРІР°С‚СЊ РїРѕСЃС‚СЂРѕРµРЅРёРµ РѕС‚С‡С‘С‚Р° РІ РІРёРґРµ РѕР±С‹С‡РЅРѕРіРѕ С‚РµРєСЃС‚Р° (CTextRuSummary)
     return 'Not implemented.'

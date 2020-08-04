@@ -11,7 +11,7 @@ class CTextRuAPI(object):
   
   def check(self, text):
     uid = self.addPost(text)
-    return CTextRuPendingRequest(uid=uid)
+    return CTextRuPendingRequest(uid=uid, request=self.getTask)
   
   def addPost(self, text):
     resp = self._request(
@@ -27,3 +27,20 @@ class CTextRuAPI(object):
       return resp['text_uid']
     
     raise Exception('(Text.Ru) Error #%d: %s' % (resp['error_code'], resp['error_desc']))
+  
+  def getTask(self, uid):
+    resp = self._request(
+      'http://api.text.ru/post',
+      {
+        'userkey': self._key,
+        'uid': uid,
+        'jsonvisible': 'details'
+      }
+    )
+    
+    if 'error_code' in resp:
+      if 81 == resp['error_code']: return None
+      if 44 == resp['error_code']: return None
+      raise Exception('(Text.Ru) Error #%d: %s' % (resp['error_code'], resp['error_desc']))
+
+    return resp
