@@ -10,5 +10,9 @@ class CTextRuPendingRequest(object):
   
   def pull(self):
     resp = self._request(self._uid)
-    # todo: Ожидать пока поле spell_check будет НЕ равно пустой строке.
-    return self if resp is None else CTextRuSummary(resp)
+    if resp is None: return self
+
+    if 'spell_check' in resp:
+      if not ('' == resp['spell_check']):
+        return CTextRuSummary(resp)
+    return self
