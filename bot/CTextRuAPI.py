@@ -13,7 +13,7 @@ class CTextRuAPI(object):
   
   def check(self, text):
     uid = self.addPost(text)
-    return CTextRuPendingRequest(uid=uid, request=self.getTask)
+    return CTextRuPendingRequest(uid=uid, request=self.getTask, spellRequired=False)
   
   def addPost(self, text):
     resp = self._request(
