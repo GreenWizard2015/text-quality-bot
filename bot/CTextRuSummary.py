@@ -6,6 +6,9 @@ class CTextRuSummary(object):
   def isReady(self):
     return True
   
+  @property
+  def text_unique(self):
+    return float(self._data['text_unique'])
+
   def asText(self):
-    # todo: Реализовать построение отчёта в виде обычного текста (CTextRuSummary)
-    return 'Not implemented.'
+    return 'Уникальность текста: %.0f / 100' % self.text_unique

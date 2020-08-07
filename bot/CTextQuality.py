@@ -12,6 +12,7 @@ class CTextQuality(object):
     self._languagetool = CLanguageTool()
 
   def TextRu_check(self, text):
+    # todo: Возвращать фейковый отчёт с ошибкой и 0% text_unique, если возникла ошибка
     results = self._textRu.check(text)
     while not results.isReady():
       results = results.pull()
@@ -23,7 +24,14 @@ class CTextQuality(object):
     
     errors = CtqsErrors(spelling)
     if len(spelling) < self.configs.MaxSpellingErrors:
-      return CtqsJoined([errors, self.TextRu_check(text)])
+      textRu = self.TextRu_check(text)
+      res = [errors, textRu]
+      if textRu.text_unique < self.configs.MinUnique:
+        res.append(CtqsMessage(
+          '<b>ВНИМАНИЕ!</b> Текст уникален лишь на %.0f%%, а минимальный уровень уникальности - %.0f%%.' %
+          (textRu.text_unique, self.configs.MinUnique)
+        ))
+      return CtqsJoined(res)
 
     return CtqsJoined([
       errors,
