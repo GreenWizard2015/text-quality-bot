@@ -10,6 +10,6 @@ class CtqsErrors(object):
       byKind[kind].append(e)
 
     return '\n\n'.join(
-      '%s\n%s' % (kind, '\n'.join(e['message'] for e in items))
+      '%s\n%s' % (kind, '\n'.join('\n- ' + e['message'] for e in items))
       for kind, items in byKind.items()
     )

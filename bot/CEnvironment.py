@@ -10,7 +10,11 @@ class CEnvironment:
     self.google_docs = CGoogleDocs(googleApi)
     
   def send(self, message):
-    return self._update.message.reply_text(message)
+    # todo: Реализовать более правильный метод перевода html -> markdown
+    for x in '_*[]()~>#+-=|{}.!':
+      message = message.replace(x, '\\' + x)
+    message = message.replace('<b\\>', '*').replace('</b\\>', '*')
+    return self._update.message.reply_markdown_v2(message)
   
   @property
   def message(self):

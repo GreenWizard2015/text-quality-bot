@@ -10,9 +10,12 @@ class Test_CtqsErrors:
     ]) 
     expect(summary.asText()).is_equal('''
 A
-error 1
-error 3
+
+- error 1
+
+- error 3
 
 B
-error 2
+
+- error 2
     '''.strip())
